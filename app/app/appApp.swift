@@ -43,6 +43,7 @@ struct appApp: App {
                     }
                 }
             }
+            .preferredColorScheme(.light)
         }
         .modelContainer(sharedModelContainer)
     }

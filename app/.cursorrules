@@ -42,6 +42,7 @@ SwiftUI Conventions
 - Keep business logic outside views (in models/services) and inject as dependencies.
 - Use `PreviewProvider` with lightweight mock data. Wrap in `#if DEBUG`.
  - Colors: Use centralized palette in `app/Utils/Colors.swift` first. Avoid hard-coded hex/RGB in views.
+ - Light mode only: Force `.preferredColorScheme(.light)` at the app root and in previews.
 
 Concurrency
 - Prefer async/await over callbacks and Combine where practical.

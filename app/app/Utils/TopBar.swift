@@ -9,24 +9,42 @@ import SwiftUI
 
 struct TopBar: View {
   var body: some View {
+    let topInset = TopBar.safeAreaTopInset()
     VStack(spacing: 0) {
+      // Top row (purple) - 50% of safe area height
       Rectangle()
         .fill(Color.lphPurple)
-        .frame(height: 10)
+        .frame(height: topInset / 2)
+
+      // Bottom row (yellow/orange split) - 50% of safe area height
       GeometryReader { proxy in
         HStack(spacing: 0) {
           Rectangle()
             .fill(Color.lphYellow)
-            .frame(width: proxy.size.width * 0.25, height: 10)
+            .frame(width: proxy.size.width * 0.25, height: topInset / 2)
           Rectangle()
             .fill(Color.lphOrange)
-            .frame(width: proxy.size.width * 0.75, height: 10)
+            .frame(width: proxy.size.width * 0.75, height: topInset / 2)
         }
       }
-      .frame(height: 10)
+      .frame(height: topInset / 2)
     }
     .frame(maxWidth: .infinity, alignment: .top)
     .accessibilityHidden(true)
+  }
+}
+
+private extension TopBar {
+  static func safeAreaTopInset() -> CGFloat {
+    guard
+      let windowScene = UIApplication.shared.connectedScenes
+        .compactMap({ $0 as? UIWindowScene })
+        .first,
+      let window = windowScene.windows.first(where: { $0.isKeyWindow })
+    else {
+      return 0
+    }
+    return window.safeAreaInsets.top
   }
 }
 
