@@ -30,7 +30,7 @@ struct RootTabsView: View {
       HStack(spacing: 0) {
         TabButton(systemImageName: "play.fill", title: "Chant", isSelected: selectedTab == 0) { selectedTab = 0 }
         TabButton(systemImageName: "info.circle", title: "About", isSelected: selectedTab == 1) { selectedTab = 1 }
-        TabButton(systemImageName: "person", title: "Logout", isSelected: selectedTab == 2) { selectedTab = 2 }
+        TabButton(systemImageName: "person", title: "Account", isSelected: selectedTab == 2) { selectedTab = 2 }
       }
       .frame(height: 50)
       .background(Color(.systemBackground))
@@ -48,7 +48,7 @@ private struct TabButton: View {
     Button(action: action) {
       Image(systemName: systemImageName)
         .font(.system(size: 18, weight: .semibold))
-        .foregroundColor(isSelected ? .lphOrange : .primary)
+        .foregroundColor(isSelected ? .lphOrange : .lphPurple)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .contentShape(Rectangle())
     }
