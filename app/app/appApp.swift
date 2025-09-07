@@ -26,18 +26,21 @@ struct appApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Group {
-                if showSplash {
-                    SplashView()
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                withAnimation(.easeOut(duration: 0.3)) {
-                                    showSplash = false
+            VStack(spacing: 0) {
+                TopBar()
+                Group {
+                    if showSplash {
+                        SplashView()
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    withAnimation(.easeOut(duration: 0.3)) {
+                                        showSplash = false
+                                    }
                                 }
                             }
-                        }
-                } else {
-                    LoginView()
+                    } else {
+                        LoginView()
+                    }
                 }
             }
         }
