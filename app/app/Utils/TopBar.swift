@@ -30,11 +30,12 @@ struct TopBar: View {
       .frame(height: topInset / 2)
     }
     .frame(maxWidth: .infinity, alignment: .top)
+    .ignoresSafeArea(.container, edges: .top)
     .accessibilityHidden(true)
   }
 }
 
-private extension TopBar {
+extension TopBar {
   static func safeAreaTopInset() -> CGFloat {
     guard
       let windowScene = UIApplication.shared.connectedScenes

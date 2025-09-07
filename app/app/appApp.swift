@@ -7,10 +7,13 @@
 
 import SwiftUI
 import SwiftData
+import FirebaseCore
 
 @main
 struct appApp: App {
     @State private var showSplash: Bool = true
+    @StateObject private var authService = AuthService()
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -24,10 +27,15 @@ struct appApp: App {
         }
     }()
 
+    init() {
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
-            VStack(spacing: 0) {
-                TopBar()
+            ZStack(alignment: .top) {
                 Group {
                     if showSplash {
                         SplashView()
@@ -38,10 +46,15 @@ struct appApp: App {
                                     }
                                 }
                             }
+                    } else if authService.isAuthenticated {
+                        MainView()
                     } else {
                         LoginView()
+                            .environmentObject(authService)
                     }
                 }
+
+                TopBar()
             }
             .preferredColorScheme(.light)
         }
