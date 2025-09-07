@@ -44,6 +44,12 @@ SwiftUI Conventions
  - Colors: Use centralized palette in `app/Utils/Colors.swift` first. Avoid hard-coded hex/RGB in views.
  - Light mode only: Force `.preferredColorScheme(.light)` at the app root and in previews.
 
+Localization
+- The app is multilingual. Use localization for all user-visible text and images.
+- Prefer `LocalizedStringKey` in SwiftUI (`Text("key")`) and `String(localized:)` in non-UI code.
+- Localize image/assets: use helpers like `Branding.lphMainImage()` to select language-specific images.
+- Fallback language is English when a localized asset/string is missing.
+
 Concurrency
 - Prefer async/await over callbacks and Combine where practical.
 - Mark UI updates on the main actor: `@MainActor` functions or `await MainActor.run { ... }`.

@@ -3,16 +3,22 @@ import SwiftData
 
 struct LoginView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
     
     var body: some View {
         VStack(spacing: 0) {
             TopBar()
                 .ignoresSafeArea(edges: .all)
+            Branding.lphMainImage()
+                .resizable()
+                .scaledToFit()
+                .padding(.horizontal)
             NavigationStack {
             }
             
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.clear)
+        .ignoresSafeArea()
     }
 }
 
