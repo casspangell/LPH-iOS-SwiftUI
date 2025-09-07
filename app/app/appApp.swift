@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct appApp: App {
+    @State private var showSplash: Bool = true
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -25,7 +26,20 @@ struct appApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if showSplash {
+                    SplashView()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                withAnimation(.easeOut(duration: 0.3)) {
+                                    showSplash = false
+                                }
+                            }
+                        }
+                } else {
+                    LoginView()
+                }
+            }
         }
         .modelContainer(sharedModelContainer)
     }

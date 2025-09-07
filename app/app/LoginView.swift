@@ -1,14 +1,7 @@
-//
-//  ContentView.swift
-//  app
-//
-//  Created by Cass Pangell on 9/7/25.
-//
-
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct LoginView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
 
@@ -56,6 +49,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    LoginView()
         .modelContainer(for: Item.self, inMemory: true)
 }

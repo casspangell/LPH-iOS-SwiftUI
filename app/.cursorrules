@@ -41,6 +41,7 @@ SwiftUI Conventions
 - Mark UI-facing types as `@MainActor` when they perform side effects.
 - Keep business logic outside views (in models/services) and inject as dependencies.
 - Use `PreviewProvider` with lightweight mock data. Wrap in `#if DEBUG`.
+ - Colors: Use centralized palette in `app/Utils/Colors.swift` first. Avoid hard-coded hex/RGB in views.
 
 Concurrency
 - Prefer async/await over callbacks and Combine where practical.
