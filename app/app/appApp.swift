@@ -47,7 +47,7 @@ struct appApp: App {
                                 }
                             }
                     } else if authService.isAuthenticated {
-                        MainView()
+                        RootTabsView()
                     } else {
                         LoginView()
                             .environmentObject(authService)
