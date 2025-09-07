@@ -1,0 +1,99 @@
+Swift + SwiftUI Rules for LPH iOS App
+
+Scope
+- This repository is a Swift/SwiftUI iOS application using Xcode projects (not SPM-only).
+- Primary language: Swift 5.9+ (prefer Swift 5.10 when available).
+- UI framework: SwiftUI. Prefer UIKit only when necessary.
+
+General Principles
+- Prefer clarity over cleverness. Optimize for readability and maintainability.
+- Keep changes minimal and localized. Do not refactor unrelated code.
+- Avoid introducing new dependencies or tools without explicit user approval.
+- Keep platform compatibility with the current project settings; do not change bundle ids, targets, or deployment versions without approval.
+
+Source Layout
+- Keep new source files under `app/` alongside existing files unless a clearer structure emerges.
+- Name Swift files after the primary type they define (e.g., `ProfileView.swift`).
+- Organize large files with `// MARK: -` sections in a consistent order.
+
+Swift Style
+- Use `UpperCamelCase` for types and `lowerCamelCase` for variables, properties, and functions.
+- Prefer `struct` over `class`. Use `final class` where reference semantics are required. Use `actor` for shared mutable state across tasks.
+- Prefer immutability: use `let` over `var` whenever possible.
+- Access control: default to `internal`; mark members `private` or `fileprivate` when possible. Avoid `public/open` unless needed.
+- Avoid force unwrapping (`!`) and `try!`. Use `guard let`/`if let` and `try?` or `throws` with proper handling.
+- Prefer early returns with `guard` to reduce nesting.
+- Keep functions short and single-purpose. Extract helpers when logic grows.
+
+Formatting
+- Indentation: 2 spaces. Keep line length ≤ 120 characters when practical.
+- One type per file. One top-level declaration per file where feasible.
+- Sort imports: standard library/Foundation first, then Apple frameworks (SwiftUI, Combine), then project modules.
+- Prefer multi-line argument lists for long initializers. Allow trailing commas in multi-line collections.
+
+SwiftUI Conventions
+- Views are value types. Keep them small and composable.
+- State management:
+  - `@State` for simple local, value-type state.
+  - `@StateObject` for reference-type models created by the view.
+  - `@ObservedObject` for models injected from parents.
+  - `@EnvironmentObject` sparingly for app-wide models; document usage.
+- Mark UI-facing types as `@MainActor` when they perform side effects.
+- Keep business logic outside views (in models/services) and inject as dependencies.
+- Use `PreviewProvider` with lightweight mock data. Wrap in `#if DEBUG`.
+
+Concurrency
+- Prefer async/await over callbacks and Combine where practical.
+- Mark UI updates on the main actor: `@MainActor` functions or `await MainActor.run { ... }`.
+- Avoid unstructured concurrency. Use `Task` thoughtfully and cancel when views disappear.
+- Use `actor` or `NSLock`-free designs to protect shared mutable state.
+
+Error Handling
+- Use `throws` for recoverable errors. Convert to user-facing messages at the UI boundary.
+- Avoid swallowing errors. Log context where failures occur (without leaking PII).
+- Prefer domain-specific `Error` enums with meaningful cases.
+
+Dependencies and Tooling
+- Do not add third-party libraries without explicit approval.
+- If linting is introduced (e.g., SwiftLint), align rules with this file. Until then, follow the style above and do not add config files.
+
+Testing
+- When adding testable logic (formatters, pure functions), add unit tests where sensible.
+- Prefer deterministic tests without time/network dependencies.
+
+Performance
+- Avoid premature optimization. Measure before optimizing.
+- Prefer value semantics and copy-on-write types. Avoid unnecessary allocations in tight paths.
+
+Commit and PR Guidance (for AI-assisted edits)
+- Keep edits focused and atomic. Include a concise summary of the change and its impact.
+- Do not reformat files unrelated to the change.
+- Preserve existing public APIs unless explicitly changing them is required.
+
+AI Assistant Operational Rules
+- Read the relevant files before editing. Do not guess project structure.
+- When creating new Swift files, include required imports and ensure they compile in the current target.
+- Do not alter project files (`.xcodeproj`) unless explicitly instructed.
+- Keep UI consistent with existing `SwiftUI` patterns in `ContentView.swift` and `appApp.swift`.
+- Prefer descriptive names over abbreviations. Avoid 1–2 character identifiers.
+
+Examples (Abbreviated)
+- Use guard for early exit:
+```swift
+func loadUser(id: UUID) throws -> User {
+  guard let user = cache[id] else { throw LoadError.notFound }
+  return user
+}
+```
+
+- SwiftUI state ownership:
+```swift
+struct ProfileScreen: View {
+  @StateObject private var viewModel = ProfileViewModel()
+  var body: some View { /* ... */ }
+}
+```
+
+When in Doubt
+- Ask for clarification before introducing new architecture, dependencies, or breaking changes.
+- Default to the safest minimal change that satisfies the requirement.
